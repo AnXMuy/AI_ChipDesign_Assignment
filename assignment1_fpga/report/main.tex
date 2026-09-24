@@ -1,0 +1,19 @@
+\documentclass[UTF8,a4paper,12pt]{ctexart}
+\usepackage{geometry,booktabs,graphicx,amsmath}
+\geometry{left=2.6cm,right=2.6cm,top=2.5cm,bottom=2.5cm}
+\title{Ultra96 平台上的 8 bit 量化卷积加速设计}
+\author{姓名：\underline{\hspace{4cm}}\\学号：\underline{\hspace{4cm}}}
+\date{\today}
+\begin{document}\maketitle
+\begin{abstract}本文报告一层 8 bit 量化卷积在 Ultra96 上的 PS/PL 协同实现。待实验完成后补充系统结构、资源利用率、时序和性能结果。\end{abstract}
+\section{实验目的与要求}
+输入、输出和卷积核尺寸分别为 $(256,256,16)$、$(256,256,32)$ 和 $(32,3,3,16)$，中间累加精度为 32 bit。
+\section{系统设计}
+介绍 Python golden 模型、PYNQ PS 数据搬运、AXI-DMA 和 PL 行缓存/输出通道分块结构。给出数据布局、寄存器表和时序图。
+\section{实现与验证}
+说明仿真向量生成、板端部署流程和输出逐元素比对方法。此处插入 waveform、板卡照片和关键代码片段。
+\section{结果与分析}
+\begin{table}[h]\centering\begin{tabular}{lrrr}\toprule 指标 & 基线 & PL 加速 & 加速比\\\midrule 延迟/ms & 待测 & 待测 & 待测\\吞吐/GOPS & 待测 & 待测 & 待测\\资源/LUT & -- & 待测 & --\\\bottomrule\end{tabular}\caption{实验结果（提交前填写实测值）}\end{table}
+\section{结论}\section*{参考文献}\begin{enumerate}\item Xilinx, \textit{Ultra96-V2 User Guide}.\item Jacob et al., Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference, CVPR 2018.\end{enumerate}
+\end{document}
+

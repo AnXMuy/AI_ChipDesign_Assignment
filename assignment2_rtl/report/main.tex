@@ -1,0 +1,13 @@
+\documentclass[UTF8,a4paper,12pt]{ctexart}
+\usepackage{geometry,booktabs,amsmath,graphicx}\geometry{left=2.6cm,right=2.6cm,top=2.5cm,bottom=2.5cm}
+\title{RTL 仿真环境下的 8 bit 量化卷积算子设计}
+\author{姓名：\underline{\hspace{4cm}}\\学号：\underline{\hspace{4cm}}}\date{\today}
+\begin{document}\maketitle
+\begin{abstract}本文介绍可综合 Verilog 窗口级卷积 MAC、testbench 数据加载和 Python golden 对比方法。\end{abstract}
+\section{设计目标}给出输入/输出尺寸、数据精度、stride、padding 和参数可配置范围。
+\section{RTL 架构}说明滑窗、乘加树、32 bit 累加器、饱和截断及 valid/ready 协议，并插入模块框图。
+\section{验证环境}记录 Vivado/iverilog/ModelSim 版本、编译命令、测试向量和覆盖率。
+\section{实验结果}报告功能正确性、时钟频率、资源和吞吐率；附波形截图与 golden 对比统计。
+\section{问题与改进}\section{结论}\section*{参考文献}\begin{enumerate}\item IEEE, Verilog HDL Language Reference Manual.\item ARM, AMBA AXI4-Stream Protocol Specification.\end{enumerate}
+\end{document}
+
