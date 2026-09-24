@@ -9,6 +9,7 @@
 | `assignment1_fpga/` | Ultra96 FPGA：Python 仿真、PS/PYNQ 数据通路、PL 加速器接口和报告 |
 | `assignment2_rtl/` | 可综合 Verilog 卷积模块、testbench、仿真脚本和报告 |
 | `assignment3_survey/` | 人工智能芯片调研综述 LaTeX 模板（正文未写） |
+| `webapp/` | 浏览器仿真与 PS/PL 接入控制台 |
 | `common/python/` | 共享的 8-bit 输入/输出、32-bit 累加卷积参考模型 |
 
 ## 快速开始
@@ -19,6 +20,7 @@ conda activate ./.conda
 make test       # Python 参考模型测试
 make sim        # 完整小尺寸图像 RTL 回归（逐元素对比 golden）
 make lint
+python webapp/server.py  # 浏览器工作台：http://127.0.0.1:8765
 ```
 
 Conda 环境和包缓存分别安装在当前仓库的 `.conda/` 和 `.conda-pkgs/`。Vivado 是 Xilinx 专有工具，不能通过 conda 部署；Ultra96 板端需要匹配硬件版本的 PYNQ 镜像。`assignment1_fpga/README.md` 标明未完成的板端步骤。
