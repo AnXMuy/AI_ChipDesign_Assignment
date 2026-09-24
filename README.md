@@ -17,7 +17,7 @@
 CONDA_PKGS_DIRS="$PWD/.conda-pkgs" conda env create --prefix ./.conda -f environment.yml
 conda activate ./.conda
 make test       # Python 参考模型测试
-make sim        # Verilator RTL smoke simulation
+make sim        # 完整小尺寸图像 RTL 回归（逐元素对比 golden）
 make lint
 ```
 
@@ -25,7 +25,7 @@ Conda 环境和包缓存分别安装在当前仓库的 `.conda/` 和 `.conda-pkg
 
 ## 统一数据约定
 
-默认课程规模为输入 `(H,W,C)=(256,256,16)`、输出 `(H,W,C)=(256,256,32)`、卷积核 `(K_N,K_H,K_W,K_C)=(32,3,3,16)`。参考实现使用 NHWC 布局、stride=1、padding=1，乘加在 `int32` 中完成，最后饱和到 int8。仿真 smoke test 使用更小的尺寸以便在普通电脑上快速运行；参数接口与课程规模一致。
+默认课程规模为输入 `(H,W,C)=(256,256,16)`、输出 `(H,W,C)=(256,256,32)`、卷积核 `(K_N,K_H,K_W,K_C)=(32,3,3,16)`。参考实现使用 NHWC 布局、stride=1、padding=1，乘加在 `int32` 中完成，最后饱和到 int8。RTL 模块参数接口支持课程规模；日常回归使用 `make sim` 的小尺寸完整图像，`bash scripts/run_rtl_sim.sh course` 可生成课程规模向量（逐 MAC FSM 仿真会非常慢）。
 
 ## 报告
 

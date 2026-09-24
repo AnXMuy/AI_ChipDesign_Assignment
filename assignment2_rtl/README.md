@@ -1,9 +1,10 @@
 # 作业二：RTL 仿真卷积算子
 
-`rtl/conv2d_stream.sv` 是可综合的窗口级 MAC 引擎：每个输入 beat 携带一个 feature/weight 对，`window_last` 标记窗口结束，内部使用 32-bit 累加并输出饱和 int8。上层 line buffer、滑窗地址生成和 DMA 可独立替换。
+`rtl/conv2d_stream.sv` 是可综合的完整参数化卷积控制器：加载 NHWC 输入、HWIO 权重和 bias 后，按 stride/padding 扫描所有输出像素与通道，使用 32-bit 累加并输出饱和 int8。上层 line buffer、DMA 和板卡寄存器仍属于作业一硬件集成层。
 
 ```bash
-make sim
+make sim                 # small complete image regression
+bash scripts/run_rtl_sim.sh course  # course dimensions; computationally expensive
 ```
 
-课程规模 `(256,256,16)->(256,256,32)` 不建议直接在 testbench 中展开全部数据；testbench 应使用同一组确定性输入文件，并逐像素比对 Python golden 输出。
+testbench 通过 `$readmemh` 加载同一组确定性输入、权重、bias 和 Python golden 输出，逐元素比对输出地址。小回归覆盖完整加载、padding、stride、累加和 int8 饱和；`course` 模式使用课程默认尺寸。

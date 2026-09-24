@@ -1,6 +1,6 @@
 # 作业一：Ultra96 FPGA 卷积加速
 
-本目录对应 Ultra96 的 PS/PL 协同实现。`sim/` 使用共享 Python 参考模型产生 golden 输出；`ps/` 是 PYNQ 集成入口（尚未接入真实 overlay）；`pl/` 包含 Verilog MAC 模块及数据流约定。Vivado 工程和 bitstream 尚未生成，板端运行并未完成。
+本目录对应 Ultra96 的 PS/PL 协同实现。`sim/` 使用共享 Python 参考模型产生完整输入/权重/bias/golden 文件；`ps/` 是 PYNQ 集成入口（尚未接入真实 overlay）；`pl/` 包含 Verilog MAC 模块及数据流约定。Vivado 工程和 bitstream 尚未生成，板端运行并未完成。
 
 ## 推荐数据通路
 
