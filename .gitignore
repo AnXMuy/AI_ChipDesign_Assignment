@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+work/
+transcript
+vsim.wlf
+*.log
+results/
+report/
+*.swp
+.DS_Store
