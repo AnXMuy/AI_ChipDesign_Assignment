@@ -1,43 +1,33 @@
 # 一层 8-bit 量化卷积 RTL 加速器设计报告
 
-## 1. 设计目标
+## 1. 设计任务与课程要求
 
-## 2. 课程标准参数
+## 2. 参数定义与数据格式
 
-| 参数 | 数值 |
-|---|---|
-| 输入特征图 | 256×256×16 |
-| 输出特征图 | 256×256×32 |
-| 卷积核 | 32×3×3×16 |
-| stride | 1 |
-| padding | 1 |
-| 输入/输出精度 | 8-bit |
-| 累加精度 | 32-bit |
+## 3. Python 参考数据生成
 
-## 3. 总体设计
+## 4. RTL 结构
 
-插入 RTL 结构图，并说明输入加载、权重加载、地址生成、乘加、量化和输出流程。
+## 5. Testbench 自检设计
 
-## 4. Python 参考模型
+说明 testbench 如何读取 `expected.bin`，如何逐项比较，如何输出 `TB_PASS/TB_FAIL`。
 
-说明数据生成、布局、累加和饱和量化方法。
+## 6. ModelSim 仿真过程
 
-## 5. RTL 模块设计
+插入编译、复位启动、输入权重加载、输出完成截图。
 
-逐一说明 `conv_top.v`、`mac_array.v`、`line_buffer.v`、`quantizer.v`、`cfg_regs.v` 和 `addr_gen.v`。
+## 7. 标准配置验证结果
 
-## 6. ModelSim 仿真
+填写 Transcript 中的实际 `TB_SUMMARY`，确认 `mismatches=0`、`errors=0`、`TB_PASS`。
 
-插入编译、启动、计算、输出和完成截图。
+## 8. 参数可调实验
 
-## 7. 结果与验证
+填写 `stride2_pad0`、`kernel1`、`kernel5`、`height64`、`width64`、`input_channels8`、`output_channels16`、`acc24`、`truncate_quant` 的结果。
 
-填写 `results/baseline/compare.txt` 中的实际误码数、误码率、最大误差、仿真周期数和仿真时间。
+## 9. 并行度实验
 
-## 8. 结果分析
+填写 `parallel_2x`、`parallel_4x`、`parallel_8x`、`parallel_16x` 的周期、加速比和自检结果，插入四张并行波形截图。
 
-结合波形和日志分析握手、状态机、边界补零、量化和输出顺序。
+## 10. 结果分析
 
-## 9. 总结与改进
-
-记录已完成工作、当前限制和可行的后续优化。
+## 11. 总结

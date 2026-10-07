@@ -1,96 +1,106 @@
-# ModelSim 运行指南
+# ModelSim 图形界面实验指南
 
-这份文档按课程作业标准配置编写。仓库默认只使用 `baseline`，不需要额外的小规模配置。
+这份指南只讲 ModelSim 图形界面操作。实验结果由 `tb/tb_conv.v` 在仿真内部直接完成校验：testbench 会读取 Python 生成的 `expected.bin`，把每个 RTL 输出与参考值逐项比较，并在 Transcript 中输出 `TB_PASS` 或 `TB_FAIL`。你不需要再单独运行结果比对程序来判断波形是否正确。
 
-## 一、准备环境
+## 1. 实验目录
 
-需要准备：
+从 GitHub 克隆仓库后，在仓库根目录可以看到：
 
-- ModelSim 或 QuestaSim，并确保 `vsim`、`vlib`、`vlog` 在终端中可用。
-- Python 3.9 或更高版本。
-- NumPy。安装命令：
-
-```bash
-python3 -m pip install numpy
+```text
+python/                 数据和参考模型
+rtl/                    卷积 RTL
+ tb/                     自检型 testbench
+scripts/run_sim.tcl     ModelSim GUI 初始化脚本
+MODELsim运行指南.md     本文档
+报告撰写指南.md         报告填写说明
+REPORT_TEMPLATE.md      报告模板
 ```
 
-进入仓库根目录后检查：
+## 2. 只做一次的准备工作
 
-```bash
-vsim -version
-python3 --version
-```
+### 2.1 生成标准配置数据
 
-## 二、课程标准参数
-
-| 参数 | 数值 |
-|---|---:|
-| 输入特征图 | `H=256, W=256, C=16` |
-| 输出通道数 | `KN=32` |
-| 卷积核 | `KH=3, KW=3, KC=16` |
-| 步长 | `STRIDE=1` |
-| 填充 | `PAD=1` |
-| 输入/权重/输出 | 有符号 `int8` |
-| 累加结果 | `32-bit` |
-| 输出量化 | 饱和到 `[-128, 127]` |
-| 随机种子 | `42` |
-
-输出尺寸为 `OH=256, OW=256`。
-
-## 三、生成输入和 Python 参考结果
-
-在仓库根目录运行：
+打开系统终端，进入仓库根目录，执行 Python 数据生成命令：
 
 ```bash
 python3 python/gen_data.py --config baseline
 python3 python/run_golden.py --config baseline
 ```
 
-生成文件位于 `data/baseline/`：
+这两条命令只负责生成输入、权重和参考输出。真正的正确性判断在 ModelSim 的 testbench 内完成。
 
-- `input.bin`：`256×256×16` 的有符号 8-bit 输入特征图。
-- `weight.bin`：`32×3×3×16` 的有符号 8-bit 卷积核。
-- `expected.bin`：Python 参考输出，形状为 `256×256×32`。
-- `expected_int32.bin`：Python 参考累加结果。
-- `meta.json`：完整参数和数据布局说明。
+生成后应存在：
 
-## 四、在 ModelSim 中运行
-
-### 方式 A：命令行运行
-
-在仓库根目录执行：
-
-```bash
-vsim -c -do "do scripts/run_sim.tcl baseline"
+```text
+data/baseline/input.bin
+data/baseline/weight.bin
+data/baseline/expected.bin
+data/baseline/expected_int32.bin
+data/baseline/meta.json
 ```
 
-脚本会完成：
+### 2.2 创建结果目录
 
-1. 创建并清理 `work` 库。
-2. 编译 `rtl/conv_top.v` 和本地 testbench。
-3. 加载 `data/baseline/input.bin` 和 `data/baseline/weight.bin`。
-4. 运行卷积计算。
-5. 将 RTL 输出写入 `results/baseline/rtl_output.bin`。
-6. 保存仿真日志。
+在仓库根目录创建：
 
-### 方式 B：ModelSim GUI 运行
-
-在仓库根目录打开 ModelSim：
-
-```bash
-vsim
+```text
+results/baseline/
 ```
 
-在 Transcript 窗口逐行执行：
+testbench 会把 RTL 输出写入：
+
+```text
+results/baseline/rtl_output.bin
+```
+
+## 3. 使用 ModelSim GUI 建立工程
+
+1. 打开 ModelSim。
+2. 选择 `File → Change Directory`。
+3. 把工作目录切换到仓库根目录。
+4. 选择 `File → New → Project`。
+5. 工程名填写 `AIChipDesignAssignment`。
+6. 工程位置选择仓库根目录。
+7. 将下面文件加入工程：
+
+```text
+rtl/conv_top.v
+tb/tb_conv.v
+```
+
+8. 确认 Library 窗口中存在 `work`。
+9. 确认 Project 窗口中出现 `conv_top.v` 和 `tb_conv.v`。
+
+## 4. 编译
+
+在 ModelSim 底部 Transcript 窗口输入：
 
 ```tcl
 vlib work
 vlog -sv rtl/conv_top.v tb/tb_conv.v
-vsim work.tb_conv
-run -all
 ```
 
-建议同时打开 Wave 窗口，加入以下信号：
+编译成功的判断：
+
+- Transcript 没有 `Error`。
+- Library → `work` 中出现 `conv_top` 和 `tb_conv`。
+- Project 窗口中的源文件没有红色错误标志。
+
+截图保存为：
+
+```text
+report/figs/01_编译成功.png
+```
+
+## 5. 运行标准配置
+
+在 Transcript 输入：
+
+```tcl
+vsim -voptargs=+acc work.tb_conv +CFG=baseline
+```
+
+添加波形：
 
 ```tcl
 add wave sim:/tb_conv/clk
@@ -105,194 +115,233 @@ add wave sim:/tb_conv/output_ready
 add wave sim:/tb_conv/busy
 add wave sim:/tb_conv/done
 add wave sim:/tb_conv/output_data
+```
+
+点击 GUI 的绿色运行按钮，或在 Transcript 输入：
+
+```tcl
 run -all
 ```
 
-如果 GUI 中使用的是仓库外的 testbench，请确保 testbench 使用相同的输入路径和输出路径：
+testbench 完成后，Transcript 应出现类似内容：
 
 ```text
-data/baseline/input.bin
-data/baseline/weight.bin
-results/baseline/rtl_output.bin
+TB_SUMMARY cfg=baseline input=.../... weight=.../... output=.../... cycles=... mismatches=0 errors=0
+TB_PASS cfg=baseline
 ```
 
-## 五、结果比对
+判断标准只有一组：
 
-ModelSim 运行完成后，执行：
+```text
+mismatches=0
+errors=0
+TB_PASS
+```
+
+`TB_PASS` 表示输入数量、权重数量、输出数量、超时状态和逐元素参考结果都通过。
+
+截图保存为：
+
+```text
+report/figs/02_标准配置通过.png
+```
+
+## 6. 如何看波形
+
+### 6.1 复位和启动
+
+重点查看：
+
+- `rst_n` 先为低，随后拉高。
+- `start` 出现一个时钟周期的高电平。
+- `busy` 在任务开始后拉高。
+
+截图保存为：
+
+```text
+report/figs/03_复位启动波形.png
+```
+
+### 6.2 输入和权重加载
+
+重点查看：
+
+- `input_valid` 和 `input_ready` 同时有效时接收输入。
+- 输入加载结束后进入权重加载阶段。
+- `weight_valid` 和 `weight_ready` 同时有效时接收权重。
+
+截图保存为：
+
+```text
+report/figs/04_输入权重加载波形.png
+```
+
+### 6.3 输出和完成
+
+重点查看：
+
+- `output_valid` 拉高后输出有效。
+- `output_ready` 保持高电平，输出可以连续被接收。
+- `done` 在全部输出完成后拉高。
+- `busy` 在任务结束后拉低。
+
+截图保存为：
+
+```text
+report/figs/05_输出完成波形.png
+```
+
+## 7. 参数实验
+
+每组参数实验都遵循同一个流程：
+
+1. 在系统终端生成对应配置的 `input.bin`、`weight.bin` 和 `expected.bin`。
+2. 在 ModelSim GUI 中重新编译。
+3. 通过 `+CFG=配置名` 启动 testbench。
+4. 观察 Transcript 中的 `TB_PASS`。
+5. 保存配置对应的波形和 Transcript 截图。
+
+### 7.1 步长和填充
+
+终端生成数据：
 
 ```bash
-python3 python/compare.py \
-  --cfg baseline \
-  --rtl results/baseline/rtl_output.bin
+python3 python/gen_data.py --config stride2_pad0
+python3 python/run_golden.py --config stride2_pad0
 ```
 
-正确结果应满足：
+ModelSim Transcript：
+
+```tcl
+vsim -voptargs=+acc work.tb_conv +CFG=stride2_pad0
+run -all
+```
+
+记录 `meta.json` 中的 `OH`、`OW`，并确认 Transcript 为 `TB_PASS`。
+
+### 7.2 卷积核尺寸
+
+分别生成并运行：
 
 ```text
-num_err: 0
-err_rate: 0.0
-max_abs_err: 0
+kernel1
+kernel5
 ```
 
-比对结果位于：
+它们对应 `1×1` 和 `5×5` 卷积核。每次启动 ModelSim 时使用对应的 `+CFG`。
+
+### 7.3 输入和输出尺寸参数
+
+分别使用：
 
 ```text
-results/baseline/compare.txt
-results/baseline/compare.csv
+height64
+width64
+input_channels8
+output_channels16
 ```
 
-如果结果不一致，按下面顺序检查：
+这些实验验证输入高度、输入宽度、输入通道数和输出通道数都能改变，并且 testbench 会按实际输出数量检查结果。
 
-1. 输入和权重文件是否来自同一次 `gen_data.py` 执行。
-2. 数据布局是否为 input=`H,W,C`、weight=`KN,KH,KW,KC`、output=`OH,OW,KN`。
-3. 输入和权重是否按有符号 8-bit 读取。
-4. padding 边界是否补零。
-5. 累加是否使用有符号 32-bit。
-6. 输出是否按 `[-128,127]` 饱和。
-7. RTL 输出文件长度是否为 `256×256×32=2,097,152` 字节。
+### 7.4 累加位宽和量化模式
 
-## 六、需要截取的截图
+使用：
 
-建议截图保存到你自己的报告目录，例如：
+```text
+acc24
+truncate_quant
+```
+
+`acc24` 验证累加位宽变化；`truncate_quant` 验证输出量化模式变化。两组实验都必须观察 `TB_PASS`，并在报告中说明输出差异。
+
+## 8. 并行实验
+
+并行实验只改变并行配置，输入特征图、卷积核和输出尺寸保持课程标准配置。这样周期差异可以归因于并行参数。
+
+| 配置名 | 输出通道并行度 | 输入通道并行度 | 卷积核高并行度 | 卷积核宽并行度 |
+|---|---:|---:|---:|---:|
+| `parallel_2x` | 2 | 1 | 1 | 1 |
+| `parallel_4x` | 4 | 1 | 1 | 1 |
+| `parallel_8x` | 8 | 1 | 1 | 1 |
+| `parallel_16x` | 16 | 1 | 1 | 1 |
+
+对每个配置分别执行：
+
+```bash
+python3 python/gen_data.py --config parallel_2x
+python3 python/run_golden.py --config parallel_2x
+```
+
+然后在 ModelSim GUI 的 Transcript 中：
+
+```tcl
+vsim -voptargs=+acc work.tb_conv +CFG=parallel_2x
+run -all
+```
+
+四组实验重复相同操作，只替换配置名。
+
+每组都要记录：
+
+- `TB_PASS` 是否出现。
+- `mismatches` 是否为 0。
+- `errors` 是否为 0。
+- Transcript 中的 `cycles`。
+- `busy` 持续时间。
+- 输出波形的开始和结束位置。
+
+截图文件名建议：
+
+```text
+report/figs/06_2倍并行.png
+report/figs/07_4倍并行.png
+report/figs/08_8倍并行.png
+report/figs/09_16倍并行.png
+```
+
+加速比按下面公式计算：
+
+```text
+加速比 = baseline 周期数 ÷ 当前并行配置周期数
+```
+
+报告中必须填写实际周期。理论上并行度提高会缩短计算阶段，但输入加载、权重加载和输出写回仍然占用时间，因此实际加速比不一定等于并行倍数。
+
+## 9. GUI 截图清单
+
+最终至少准备：
+
+```text
+01_编译成功.png
+02_标准配置通过.png
+03_复位启动波形.png
+04_输入权重加载波形.png
+05_输出完成波形.png
+06_2倍并行.png
+07_4倍并行.png
+08_8倍并行.png
+09_16倍并行.png
+```
+
+所有截图放入：
 
 ```text
 report/figs/
 ```
 
-需要准备以下截图：
+## 10. Testbench 自检说明
 
-### 图 1：工程文件与配置
+`tb/tb_conv.v` 内部已经完成以下验证：
 
-截图内容应包含 ModelSim Project/Library 窗口，能看到：
+- 输入文件读取数量检查。
+- 权重文件读取数量检查。
+- 输出数量检查。
+- 输出顺序检查。
+- RTL 输出与 `expected.bin` 逐元素比较。
+- 首个错误位置、实际值和期望值记录。
+- 仿真超时检查。
+- `done` 信号检查。
+- `busy` 结束状态检查。
+- `TB_PASS/TB_FAIL` 总结。
 
-- `conv_top`
-- RTL 源文件
-- testbench
-- `work` library
-
-建议文件名：
-
-```text
-01_modelsim_project.png
-```
-
-### 图 2：编译成功
-
-Transcript 中显示 `vlog -sv` 编译完成，没有 Error。
-
-建议文件名：
-
-```text
-02_compile_success.png
-```
-
-### 图 3：复位和启动波形
-
-Wave 窗口显示：
-
-- `clk`
-- `rst_n`
-- `start`
-- `busy`
-- `input_valid`
-- `input_ready`
-- `weight_valid`
-- `weight_ready`
-
-建议文件名：
-
-```text
-03_load_and_start_waveform.png
-```
-
-### 图 4：卷积计算和输出波形
-
-Wave 窗口显示：
-
-- `busy`
-- `output_valid`
-- `output_ready`
-- `output_data`
-- `done`
-
-建议文件名：
-
-```text
-04_output_waveform.png
-```
-
-### 图 5：仿真完成
-
-Transcript 中显示 testbench 完成、仿真结束或 `done` 被拉高。
-
-建议文件名：
-
-```text
-05_simulation_done.png
-```
-
-### 图 6：Python 结果比对
-
-终端中显示：
-
-```text
-num_err: 0
-err_rate: 0.0
-max_abs_err: 0
-```
-
-建议文件名：
-
-```text
-06_compare_pass.png
-```
-
-### 图 7：输出文件和元数据
-
-文件管理器或终端中显示：
-
-```text
-data/baseline/meta.json
-results/baseline/rtl_output.bin
-results/baseline/compare.txt
-results/baseline/compare.csv
-```
-
-建议文件名：
-
-```text
-07_result_files.png
-```
-
-## 七、运行日志和结果应放在哪里
-
-建议最终整理为：
-
-```text
-report/
-├── figs/
-│   ├── 01_modelsim_project.png
-│   ├── 02_compile_success.png
-│   ├── 03_load_and_start_waveform.png
-│   ├── 04_output_waveform.png
-│   ├── 05_simulation_done.png
-│   ├── 06_compare_pass.png
-│   └── 07_result_files.png
-├── sim.log
-├── compare.txt
-├── compare.csv
-└── summary.csv
-```
-
-`report/` 不需要提交到开源代码仓库。它属于最终课程报告材料。
-
-## 八、推荐执行顺序
-
-```bash
-python3 python/gen_data.py --config baseline
-python3 python/run_golden.py --config baseline
-vsim -c -do "do scripts/run_sim.tcl baseline"
-python3 python/compare.py --cfg baseline --rtl results/baseline/rtl_output.bin
-```
-
-确认比对为零误码后，再截取截图并填写报告。
+因此，ModelSim Transcript 中的 `TB_PASS` 是本实验的主要验收结果。Python 生成 `expected.bin` 只负责提供参考数据，逐元素验证在 testbench 内完成。

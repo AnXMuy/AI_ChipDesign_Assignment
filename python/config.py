@@ -11,11 +11,19 @@ BASE = {
 
 EXPERIMENTS = {
     "baseline": {},
-    "parallel_low": {"H": 16, "W": 16, "C": 8, "KN": 16, "KC": 8, "P_KN": 4, "P_C": 2},
-    "parallel_high": {"H": 16, "W": 16, "C": 8, "KN": 16, "KC": 8, "P_KN": 8, "P_C": 4},
-    "stride2_pad0": {"H": 16, "W": 16, "C": 8, "KN": 8, "KC": 8, "STRIDE": 2, "PAD": 0, "P_KN": 4, "P_C": 2},
-    "kernel5": {"H": 16, "W": 16, "C": 8, "KN": 8, "KC": 8, "KH": 5, "KW": 5, "P_KN": 4, "P_KH": 1, "P_KW": 1, "P_C": 2},
-    "acc24": {"H": 16, "W": 16, "C": 8, "KN": 8, "KC": 8, "ACC_WIDTH": 24, "P_KN": 4, "P_C": 2},
+    "parallel_2x": {"P_KN": 2, "P_KH": 1, "P_KW": 1, "P_C": 1},
+    "parallel_4x": {"P_KN": 4, "P_KH": 1, "P_KW": 1, "P_C": 1},
+    "parallel_8x": {"P_KN": 8, "P_KH": 1, "P_KW": 1, "P_C": 1},
+    "parallel_16x": {"P_KN": 16, "P_KH": 1, "P_KW": 1, "P_C": 1},
+    "stride2_pad0": {"STRIDE": 2, "PAD": 0},
+    "kernel1": {"KH": 1, "KW": 1, "P_KH": 1, "P_KW": 1},
+    "kernel5": {"KH": 5, "KW": 5, "P_KH": 1, "P_KW": 1},
+    "truncate_quant": {"QUANT_MODE": "truncate"},
+    "acc24": {"ACC_WIDTH": 24},
+    "height64": {"H": 64},
+    "width64": {"W": 64},
+    "input_channels8": {"C": 8, "KC": 8, "P_C": 4},
+    "output_channels16": {"KN": 16, "P_KN": 8},
 }
 
 
@@ -44,19 +52,19 @@ def derive_geometry(cfg: dict) -> dict:
 def meta_from_cfg(cfg: dict) -> dict:
     result = deepcopy(cfg)
     result.update(derive_geometry(cfg))
-    result.update({"input_dtype": "int8", "weight_dtype": "int8", "output_dtype": "int8", "acc_dtype": "int32", "byte_order": "little-endian", "layout": {"input": "H,W,C", "weight": "KN,KH,KW,KC", "output": "OH,OW,KN"}})
+    result.update({"input_dtype": "int8", "weight_dtype": "int8", "output_dtype": "int8", "acc_dtype": f"int{cfg['ACC_WIDTH']}", "byte_order": "little-endian", "layout": {"input": "H,W,C", "weight": "KN,KH,KW,KC", "output": "OH,OW,KN"}})
     return result
 
 
 def validate_config(cfg: dict) -> None:
-    for key in ("H", "W", "C", "KN", "KH", "KW", "KC", "STRIDE", "P_KN", "P_KH", "P_KW", "P_C", "ACC_WIDTH"):
+    for key in ("H", "W", "C", "KN", "KH", "KW", "KC", "STRIDE", "P_KN", "P_KH", "P_KW", "P_C", "ACC_WIDTH", "OUT_WIDTH"):
         if cfg[key] <= 0:
             raise ValueError(f"{key} must be positive")
     if cfg["KC"] != cfg["C"]:
-        raise ValueError("KC must equal C for this assignment")
+        raise ValueError("KC must equal C")
     if cfg["KH"] not in (1, 3, 5) or cfg["KW"] not in (1, 3, 5):
         raise ValueError("KH and KW must be 1, 3, or 5")
     if cfg["P_KN"] > cfg["KN"] or cfg["P_KH"] > cfg["KH"] or cfg["P_KW"] > cfg["KW"] or cfg["P_C"] > cfg["C"]:
-        raise ValueError("parallelism cannot exceed the corresponding dimension")
+        raise ValueError("parallelism cannot exceed its dimension")
     if cfg["QUANT_MODE"] not in ("saturate", "truncate"):
         raise ValueError("QUANT_MODE must be saturate or truncate")
