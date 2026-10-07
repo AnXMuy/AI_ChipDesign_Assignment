@@ -5,6 +5,5 @@ transcript
 vsim.wlf
 *.log
 results/
-report/
 *.swp
 .DS_Store
