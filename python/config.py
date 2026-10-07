@@ -11,7 +11,6 @@ BASE = {
 
 EXPERIMENTS = {
     "baseline": {},
-    "small_smoke": {"H": 8, "W": 8, "C": 4, "KN": 4, "KC": 4, "P_KN": 2, "P_C": 2},
     "parallel_low": {"H": 16, "W": 16, "C": 8, "KN": 16, "KC": 8, "P_KN": 4, "P_C": 2},
     "parallel_high": {"H": 16, "W": 16, "C": 8, "KN": 16, "KC": 8, "P_KN": 8, "P_C": 4},
     "stride2_pad0": {"H": 16, "W": 16, "C": 8, "KN": 8, "KC": 8, "STRIDE": 2, "PAD": 0, "P_KN": 4, "P_C": 2},

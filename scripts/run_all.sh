@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-CONFIG="${1:-small_smoke}"
+CONFIG="${1:-baseline}"
 python3 python/gen_data.py --config "$CONFIG"
 python3 python/run_golden.py --config "$CONFIG"
 vsim -c -do "do scripts/run_sim.tcl $CONFIG"
