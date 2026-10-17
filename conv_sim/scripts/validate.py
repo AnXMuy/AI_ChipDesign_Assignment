@@ -10,7 +10,7 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-EVIDENCE = ROOT / "report/evidence"
+EVIDENCE = ROOT / "results/validation"
 os.environ["PATH"] = (
     str(ROOT / ".conda-env/bin") + os.pathsep + os.environ.get("PATH", "")
 )

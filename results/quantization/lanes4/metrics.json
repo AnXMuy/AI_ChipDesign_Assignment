@@ -1,0 +1,32 @@
+{
+  "cycles": 33,
+  "expected_cycles": 33,
+  "output_count": 8,
+  "errors": 0,
+  "runs": 2,
+  "lanes": 4,
+  "clock_period_ns": 10,
+  "case": "quantization",
+  "config": {
+    "H": 1,
+    "W": 8,
+    "CIN": 1,
+    "KERNEL_H": 1,
+    "KERNEL_W": 1,
+    "KERNELS": 1,
+    "COUT": 1,
+    "PAD": 0,
+    "STRIDE": 1,
+    "SHIFT": 1,
+    "OH": 1,
+    "OW": 8
+  },
+  "compile_seconds": 0.020353583997348323,
+  "simulation_seconds": 0.010504000005312264,
+  "max_abs_error": 0,
+  "mismatches": 0,
+  "output_sha256": "b0043cbc08cf5fb271c5309fa8d1de88e0601d9163d26aaffb54af4a155783f8",
+  "macs": 8,
+  "reset_between_runs": 1,
+  "simulated_ms": 0.00033
+}

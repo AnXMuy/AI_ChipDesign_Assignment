@@ -44,4 +44,4 @@ cycles = N × [KERNEL_H × KERNEL_W × (G + 2) + 1] + 1
 
 `LANES` 可以是任意正整数，`CIN` 不要求整除；核高宽独立配置，实际有效条件是正整数输入/核/步幅、非负 padding、正输出尺寸及 `1<=COUT<=KERNELS`。配置须保持 `OH,OW` 与卷积尺寸公式一致。三个地址空间的访问范围必须处于 20 位地址内。`SHIFT` 应设为 0 到 31；不执行四舍五入。32 位累加按二进制补码自然回绕，前端选取的维度须使数学累加不溢出 int32；课程和回归参数满足该条件。
 
-`python conv_sim/scripts/validate.py` 可复现无复位重启、损坏参考文件故障注入，以及 `LANES=1/4/16` 的 Yosys `proc/opt/check/stat` 检查。日志、工具版本和 JSON 汇总保存在 `report/evidence`，临时网表自动清理。资源统计是通用 RTL 单元级估算，未映射具体 FPGA/ASIC 库；汇总按乘法器输入宽度识别 8×8 数据乘法器，避免把地址运算混入并行 MAC 数量。
+`python conv_sim/scripts/validate.py` 可复现无复位重启、损坏参考文件故障注入，以及 `LANES=1/4/16` 的 Yosys `proc/opt/check/stat` 检查。日志、工具版本和 JSON 汇总保存在 `results/validation/`，临时网表自动清理。资源统计是通用 RTL 单元级估算，未映射具体 FPGA/ASIC 库；汇总按乘法器输入宽度识别 8×8 数据乘法器，避免把地址运算混入并行 MAC 数量。

@@ -1,0 +1,6 @@
+{
+  "fault": "flip first golden output bit",
+  "returncode": 1,
+  "detected": true,
+  "scope": "int8 mismatch and fatal after both repeated runs"
+}

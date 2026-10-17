@@ -1,0 +1,305 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.70 (git sha1 28ba3cb92, Release, Clang /workspace/YoWASP/yosys/wasi-sdk-33.0-x86_64-linux/share/cmake/../..//bin/clang++ 22.1.0)
+
+-- Running command `read_verilog -sv conv_sim/rtl/conv.sv; chparam -set LANES 4 conv; hierarchy -top conv; proc; opt; check; stat; write_json /var/folders/22/ffkyhzwd4blg6d063ltrwh800000gn/T/aichip_validate_c2cpemim/synthesis_lanes4.json' --
+
+1. Executing Verilog-2005 frontend: conv_sim/rtl/conv.sv
+Parsing SystemVerilog input from `conv_sim/rtl/conv.sv' to AST representation.
+Generating RTLIL representation for module `\conv'.
+Successfully finished Verilog frontend.
+Parameter \LANES = 4
+
+2. Executing AST frontend in derive mode using pre-parsed AST for module `\conv'.
+Parameter \LANES = 4
+Generating RTLIL representation for module `$paramod\conv\LANES=s32'00000000000000000000000000000100'.
+
+3. Executing HIERARCHY pass (managing design hierarchy).
+
+3.1. Analyzing design hierarchy..
+Top module:  \conv
+
+3.2. Analyzing design hierarchy..
+Top module:  \conv
+Removed 0 unused modules.
+
+4. Executing PROC pass (convert processes to netlists).
+
+4.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+4.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 3 switch rules as full_case in process $proc$conv_sim/rtl/conv.sv:64$396 in module conv.
+Marked 8 switch rules as full_case in process $proc$conv_sim/rtl/conv.sv:82$429 in module conv.
+Removed a total of 0 dead cases.
+
+4.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 18 assignments to connections.
+
+4.4. Executing PROC_INIT pass (extract init attributes).
+
+4.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_i in `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+
+4.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~11 debug messages>
+
+4.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\conv.$proc$conv_sim/rtl/conv.sv:58$390'.
+Creating decoders for process `\conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+     1/4: $2\ofm_data_o[7:0]
+     2/4: $1\ofm_data_o[7:0]
+     3/4: $1\ofm_strb_o[31:0]
+     4/4: $1$bitselwrite$pos$conv_sim/rtl/conv.sv:72$389[31:0]$417
+Creating decoders for process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+     1/13: $0\acc_q[31:0]
+     2/13: $0\knl_q[127:0]
+     3/13: $0\ifm_q[127:0]
+     4/13: $0\ofm_base_q[19:0]
+     5/13: $0\knl_base_q[19:0]
+     6/13: $0\ifm_base_q[19:0]
+     7/13: $0\group_q[31:0]
+     8/13: $0\kw_q[31:0]
+     9/13: $0\kh_q[31:0]
+    10/13: $0\oc_q[31:0]
+    11/13: $0\ow_q[31:0]
+    12/13: $0\oh_q[31:0]
+    13/13: $0\state_q[2:0]
+Creating decoders for process `\conv.$proc$conv_sim/rtl/conv.sv:55$515'.
+Creating decoders for process `\conv.$proc$conv_sim/rtl/conv.sv:55$517'.
+Creating decoders for process `\conv.$proc$conv_sim/rtl/conv.sv:55$519'.
+Creating decoders for process `\conv.$proc$conv_sim/rtl/conv.sv:55$521'.
+
+4.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\conv.\group_sum' from process `\conv.$proc$conv_sim/rtl/conv.sv:58$390'.
+No latch inferred for signal `\conv.\cfg_conv_done_o' from process `\conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+No latch inferred for signal `\conv.\ifm_vld_o' from process `\conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+No latch inferred for signal `\conv.\ifm_addr_o' from process `\conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+No latch inferred for signal `\conv.\knl_vld_o' from process `\conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+No latch inferred for signal `\conv.\knl_addr_o' from process `\conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+No latch inferred for signal `\conv.\ofm_vld_o' from process `\conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+No latch inferred for signal `\conv.\ofm_addr_o' from process `\conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+No latch inferred for signal `\conv.\ofm_data_o' from process `\conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+No latch inferred for signal `\conv.\ofm_strb_o' from process `\conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+No latch inferred for signal `\conv.\ofm_acc_o' from process `\conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+No latch inferred for signal `\conv.\shifted' from process `\conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+No latch inferred for signal `\conv.\product[0]' from process `\conv.$proc$conv_sim/rtl/conv.sv:55$515'.
+No latch inferred for signal `\conv.\product[1]' from process `\conv.$proc$conv_sim/rtl/conv.sv:55$517'.
+No latch inferred for signal `\conv.\product[2]' from process `\conv.$proc$conv_sim/rtl/conv.sv:55$519'.
+No latch inferred for signal `\conv.\product[3]' from process `\conv.$proc$conv_sim/rtl/conv.sv:55$521'.
+
+4.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\conv.\state_q' using process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+  created $adff cell `$procdff$699' with positive edge clock and positive level reset.
+Creating register for signal `\conv.\oh_q' using process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+  created $adff cell `$procdff$702' with positive edge clock and positive level reset.
+Creating register for signal `\conv.\ow_q' using process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+  created $adff cell `$procdff$705' with positive edge clock and positive level reset.
+Creating register for signal `\conv.\oc_q' using process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+  created $adff cell `$procdff$708' with positive edge clock and positive level reset.
+Creating register for signal `\conv.\kh_q' using process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+  created $adff cell `$procdff$711' with positive edge clock and positive level reset.
+Creating register for signal `\conv.\kw_q' using process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+  created $adff cell `$procdff$714' with positive edge clock and positive level reset.
+Creating register for signal `\conv.\group_q' using process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+  created $adff cell `$procdff$717' with positive edge clock and positive level reset.
+Creating register for signal `\conv.\ifm_base_q' using process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+  created $adff cell `$procdff$720' with positive edge clock and positive level reset.
+Creating register for signal `\conv.\knl_base_q' using process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+  created $adff cell `$procdff$723' with positive edge clock and positive level reset.
+Creating register for signal `\conv.\ofm_base_q' using process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+  created $adff cell `$procdff$726' with positive edge clock and positive level reset.
+Creating register for signal `\conv.\ifm_q' using process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+  created $adff cell `$procdff$729' with positive edge clock and positive level reset.
+Creating register for signal `\conv.\knl_q' using process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+  created $adff cell `$procdff$732' with positive edge clock and positive level reset.
+Creating register for signal `\conv.\acc_q' using process `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+  created $adff cell `$procdff$735' with positive edge clock and positive level reset.
+
+4.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+4.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `conv.$proc$conv_sim/rtl/conv.sv:58$390'.
+Found and cleaned up 3 empty switches in `\conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+Removing empty process `conv.$proc$conv_sim/rtl/conv.sv:64$396'.
+Found and cleaned up 8 empty switches in `\conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+Removing empty process `conv.$proc$conv_sim/rtl/conv.sv:82$429'.
+Removing empty process `conv.$proc$conv_sim/rtl/conv.sv:55$515'.
+Removing empty process `conv.$proc$conv_sim/rtl/conv.sv:55$517'.
+Removing empty process `conv.$proc$conv_sim/rtl/conv.sv:55$519'.
+Removing empty process `conv.$proc$conv_sim/rtl/conv.sv:55$521'.
+Cleaned up 11 empty switches.
+
+4.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module conv.
+<suppressed ~27 debug messages>
+
+5. Executing OPT pass (performing simple optimizations).
+
+5.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module conv.
+<suppressed ~68 debug messages>
+
+5.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\conv'.
+Computing hashes of 178 cells of `\conv'.
+Finding duplicate cells in `\conv'.
+Computing hashes of 141 cells of `\conv'.
+Finding duplicate cells in `\conv'.
+Computing hashes of 132 cells of `\conv'.
+Finding duplicate cells in `\conv'.
+<suppressed ~138 debug messages>
+Removed a total of 46 cells.
+
+5.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \conv..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 1/2 on $mux $procmux$536.
+    dead port 2/2 on $mux $procmux$536.
+    dead port 1/2 on $mux $procmux$527.
+Removed 3 multiplexer ports.
+<suppressed ~77 debug messages>
+
+5.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \conv.
+Performed a total of 0 changes.
+
+5.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\conv'.
+Computing hashes of 130 cells of `\conv'.
+Finding duplicate cells in `\conv'.
+Removed a total of 0 cells.
+
+5.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $procdff$717 ($adff) from module conv (D = $procmux$594_Y, Q = \group_q).
+Adding EN signal on $procdff$699 ($adff) from module conv (D = $procmux$680_Y, Q = \state_q).
+Adding EN signal on $procdff$732 ($adff) from module conv (D = \knl_data_i, Q = \knl_q).
+Adding EN signal on $procdff$702 ($adff) from module conv (D = $procmux$664_Y, Q = \oh_q).
+Adding EN signal on $procdff$720 ($adff) from module conv (D = \cfg_ifm_addr_i, Q = \ifm_base_q).
+Adding EN signal on $procdff$705 ($adff) from module conv (D = $procmux$648_Y, Q = \ow_q).
+Adding EN signal on $procdff$729 ($adff) from module conv (D = \ifm_data_i, Q = \ifm_q).
+Adding EN signal on $procdff$708 ($adff) from module conv (D = $procmux$635_Y, Q = \oc_q).
+Adding EN signal on $procdff$723 ($adff) from module conv (D = \cfg_knl_addr_i, Q = \knl_base_q).
+Adding EN signal on $procdff$711 ($adff) from module conv (D = $procmux$625_Y, Q = \kh_q).
+Adding EN signal on $procdff$735 ($adff) from module conv (D = $procmux$540_Y, Q = \acc_q).
+Adding EN signal on $procdff$714 ($adff) from module conv (D = $procmux$608_Y, Q = \kw_q).
+Adding EN signal on $procdff$726 ($adff) from module conv (D = \cfg_ofm_addr_i, Q = \ofm_base_q).
+
+5.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \conv..
+Removed 9 unused cells and 195 unused wires.
+<suppressed ~16 debug messages>
+
+5.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module conv.
+<suppressed ~7 debug messages>
+
+5.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \conv..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~63 debug messages>
+
+5.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \conv.
+Performed a total of 0 changes.
+
+5.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\conv'.
+Computing hashes of 149 cells of `\conv'.
+Finding duplicate cells in `\conv'.
+Computing hashes of 127 cells of `\conv'.
+Finding duplicate cells in `\conv'.
+<suppressed ~66 debug messages>
+Removed a total of 22 cells.
+
+5.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \conv..
+Removed 0 unused cells and 22 unused wires.
+<suppressed ~1 debug messages>
+
+5.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module conv.
+
+5.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \conv..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~65 debug messages>
+
+5.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \conv.
+Performed a total of 0 changes.
+
+5.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\conv'.
+Computing hashes of 127 cells of `\conv'.
+Finding duplicate cells in `\conv'.
+Removed a total of 0 cells.
+
+5.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \conv..
+
+5.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module conv.
+
+5.23. Finished fast OPT passes. (There is nothing left to do.)
+
+6. Executing CHECK pass (checking for obvious problems).
+Checking module conv...
+Found and reported 0 problems.
+
+7. Printing statistics.
+
+=== conv ===
+
+        +----------Local Count, excluding submodules.
+        |
+      141 wires
+     2792 wire bits
+       45 public wires
+     1190 public wire bits
+       18 ports
+      455 port bits
+      127 cells
+       22   $add
+       13   $adffe
+       11   $eq
+        1   $gt
+        1   $logic_not
+        5   $lt
+        7   $mul
+       31   $mux
+        6   $ne
+        1   $neg
+        8   $pmux
+        9   $reduce_and
+        3   $reduce_bool
+        1   $shift
+        8   $shiftx
+
+8. Executing JSON backend.
+
+End of script. Logfile hash: 632f118a68, time: 0.06s, user: 0.07s, system: 0.00s
+Yosys 0.70 (git sha1 28ba3cb92, Release, Clang /workspace/YoWASP/yosys/wasi-sdk-33.0-x86_64-linux/share/cmake/../..//bin/clang++ 22.1.0)
+Time spent: 33% 2x read_verilog (0 sec), 15% 5x opt_expr (0 sec), ...

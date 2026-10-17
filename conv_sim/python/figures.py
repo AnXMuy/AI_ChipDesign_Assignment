@@ -18,7 +18,7 @@ from experiment import read_hex
 
 def main():
     """汇集机器结果与波形，输出可提交的证据目录。"""
-    evidence = ROOT / "report/evidence"
+    evidence = ROOT / "results/evidence"
     figures = ROOT / "report/figures"
     evidence.mkdir(parents=True, exist_ok=True)
     figures.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,6 @@
+int8 mismatch pos=0 ch=0 got=-19 expected=-20
+run=1 cycles=297 outputs=8 errors=1
+int8 mismatch pos=0 ch=0 got=-19 expected=-20
+run=2 cycles=297 outputs=8 errors=2
+FATAL: conv_sim/tb/tb_conv.sv:189: FAIL: 2 mismatches
+       Time: 6060000  Scope: tb_conv

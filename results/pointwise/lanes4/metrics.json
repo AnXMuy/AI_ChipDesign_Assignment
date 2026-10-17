@@ -1,0 +1,32 @@
+{
+  "cycles": 901,
+  "expected_cycles": 901,
+  "output_count": 225,
+  "errors": 0,
+  "runs": 2,
+  "lanes": 4,
+  "clock_period_ns": 10,
+  "case": "pointwise",
+  "config": {
+    "H": 5,
+    "W": 9,
+    "CIN": 3,
+    "KERNEL_H": 1,
+    "KERNEL_W": 1,
+    "KERNELS": 5,
+    "COUT": 5,
+    "PAD": 0,
+    "STRIDE": 1,
+    "SHIFT": 8,
+    "OH": 5,
+    "OW": 9
+  },
+  "compile_seconds": 0.020248542015906423,
+  "simulation_seconds": 0.0205245420220308,
+  "max_abs_error": 0,
+  "mismatches": 0,
+  "output_sha256": "dac5e69c937111b9773cbced833a72cc4361177c2337cd3648dcbeb6f94edfe2",
+  "macs": 675,
+  "reset_between_runs": 1,
+  "simulated_ms": 0.00901
+}

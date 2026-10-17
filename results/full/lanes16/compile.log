@@ -1,0 +1,18 @@
+COMMAND: iverilog -g2012 -Wall -s tb_conv -o /Users/zixuan/XJTU/AIChip/results/full/lanes16/sim.vvp -Ptb_conv.H=256 -Ptb_conv.W=256 -Ptb_conv.CIN=16 -Ptb_conv.KERNEL_H=3 -Ptb_conv.KERNEL_W=3 -Ptb_conv.KERNELS=32 -Ptb_conv.COUT=32 -Ptb_conv.PAD=1 -Ptb_conv.STRIDE=1 -Ptb_conv.SHIFT=8 -Ptb_conv.OH=256 -Ptb_conv.OW=256 -Ptb_conv.LANES=16 -Ptb_conv.RUNS=1 -Ptb_conv.RESET_BETWEEN_RUNS=1 /Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv /Users/zixuan/XJTU/AIChip/conv_sim/tb/tb_conv.sv
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:64: sorry: constant selects in always_* processes are not currently supported (all bits will be included).

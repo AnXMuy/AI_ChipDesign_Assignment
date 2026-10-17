@@ -1,0 +1,3 @@
+COMMAND: iverilog -g2012 -Wall -s tb_conv -o /Users/zixuan/XJTU/AIChip/results/pointwise/lanes1/sim.vvp -Ptb_conv.H=5 -Ptb_conv.W=9 -Ptb_conv.CIN=3 -Ptb_conv.KERNEL_H=1 -Ptb_conv.KERNEL_W=1 -Ptb_conv.KERNELS=5 -Ptb_conv.COUT=5 -Ptb_conv.PAD=0 -Ptb_conv.STRIDE=1 -Ptb_conv.SHIFT=8 -Ptb_conv.OH=5 -Ptb_conv.OW=9 -Ptb_conv.LANES=1 -Ptb_conv.RUNS=2 -Ptb_conv.RESET_BETWEEN_RUNS=1 /Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv /Users/zixuan/XJTU/AIChip/conv_sim/tb/tb_conv.sv
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:58: sorry: constant selects in always_* processes are not currently supported (all bits will be included).
+/Users/zixuan/XJTU/AIChip/conv_sim/rtl/conv.sv:64: sorry: constant selects in always_* processes are not currently supported (all bits will be included).

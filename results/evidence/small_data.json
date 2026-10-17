@@ -1,0 +1,29 @@
+{
+  "config": {
+    "H": 8,
+    "W": 8,
+    "CIN": 16,
+    "KERNEL_H": 3,
+    "KERNEL_W": 3,
+    "KERNELS": 32,
+    "COUT": 32,
+    "PAD": 1,
+    "STRIDE": 1,
+    "SHIFT": 8,
+    "OH": 8,
+    "OW": 8
+  },
+  "seed": 20261017,
+  "input_min": -128,
+  "input_max": 127,
+  "accumulator_min": -210234,
+  "accumulator_max": 238206,
+  "negative_saturated": 610,
+  "positive_saturated": 603,
+  "sha256": {
+    "golden.hex": "8da5e8c17ee07735f878de7c7735d091985a484e2b2a0db118e0802fa27ab1e5",
+    "ifm.hex": "10ad4025299c1f7e0a5e3304e612832bbd6e4adec84472c0608624f20c9be837",
+    "kernel.hex": "8e9c8d8ac0e5ae2eeefdd7ef2fd48c1aaf6641489974358b3ce3b321effb551e",
+    "golden_acc.hex": "7460cfab378e029362d3714a9fed5dec4a8879648121ba84f670b64e01a288ed"
+  }
+}
