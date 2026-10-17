@@ -1,4 +1,4 @@
-"""从实测 JSON、RTL 输出与 VCD 生成报告图和审计材料。"""
+"""从实测指标和 RTL 输出生成数值图表，汇集日志与真实 VCD。"""
 
 import json
 import os
@@ -14,81 +14,6 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from experiment import read_hex
-
-
-def vcd_signals(path):
-    """解析本实验 VCD 中的标量和向量，保留未知态。"""
-    names, events = {}, {}
-    timestamp = 0
-    header = True
-    for line in path.read_text().splitlines():
-        fields = line.split()
-        if not fields:
-            continue
-        if header:
-            if fields[0] == "$var":
-                names[fields[4]] = fields[3]
-                events[fields[3]] = []
-            if fields[0] == "$enddefinitions":
-                header = False
-            continue
-        if line.startswith("#"):
-            timestamp = int(line[1:]) / 1000
-        elif line[0] in "01xz":
-            key = line[1:]
-            if key in events:
-                events[key].append(
-                    (timestamp, int(line[0]) if line[0] in "01" else np.nan)
-                )
-        elif line[0] == "b" and len(fields) == 2 and fields[1] in events:
-            value = (
-                int(fields[0][1:], 2)
-                if not any(v in fields[0] for v in "xz")
-                else np.nan
-            )
-            events[fields[1]].append((timestamp, value))
-    return {name: events[key] for name, key in names.items()}
-
-
-def waveform(path):
-    """绘制与 GTKWave 使用同一 VCD 数据源的电平时序图。"""
-    signals = vcd_signals(path)
-    chosen = [
-        "clk",
-        "rst",
-        "start",
-        "state_q",
-        "ifm_vld",
-        "ifm_addr",
-        "group_q",
-        "acc_q",
-        "ofm_vld",
-        "ofm_data",
-    ]
-    fig, axes = plt.subplots(len(chosen), 1, figsize=(13, 10), sharex=True)
-    for axis, name in zip(axes, chosen):
-        values = [(t, v) for t, v in signals[name] if t <= 1100]
-        times, data = map(np.array, zip(*values))
-        if name == "acc_q":
-            data = np.where(data >= 2**31, data - 2**32, data)
-        elif name == "ofm_data":
-            data = np.where(data >= 128, data - 256, data)
-        axis.step(
-            np.r_[times, 1100],
-            np.r_[data, data[-1]],
-            where="post",
-            color="#176b87",
-            linewidth=1.1,
-        )
-        axis.set_ylabel(name, rotation=0, ha="right", va="center", fontsize=10)
-        axis.grid(axis="x", alpha=0.25)
-        axis.spines[["top", "right"]].set_visible(False)
-    axes[-1].set_xlim(0, 1100)
-    axes[-1].set_xlabel("Simulation time (ns), clock period = 10 ns")
-    fig.suptitle("RTL waveform from Icarus VCD: small / LANES=16", fontsize=14)
-    fig.tight_layout()
-    fig.savefig(ROOT / "report/figures/waveform.png", dpi=180)
-    plt.close(fig)
 
 
 def main():
@@ -111,7 +36,6 @@ def main():
     wave = ROOT / "results/small/lanes16/wave.vcd"
     if wave.exists():
         shutil.copy2(wave, evidence / "wave.vcd")
-        waveform(wave)
     parallel = sorted(
         [r for r in rows if r["case"] == "small"], key=lambda r: r["lanes"]
     )

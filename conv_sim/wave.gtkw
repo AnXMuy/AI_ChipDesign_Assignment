@@ -1,24 +1,33 @@
 [*] 可配置定点卷积实验波形
 [size] 1400 850
+[timestart] 0
+*-15.25 70000
+[sst_width] 220
+[signals_width] 260
 @28
 tb_conv.clk
 tb_conv.rst
 tb_conv.start
 tb_conv.done
-@22
+@24
 tb_conv.dut.state_q[2:0]
 @28
 tb_conv.ifm_vld
-@22
+tb_conv.knl_vld
+@24
 tb_conv.ifm_addr[19:0]
 tb_conv.knl_addr[19:0]
 tb_conv.dut.group_q[31:0]
+tb_conv.dut.kh_q[31:0]
+tb_conv.dut.kw_q[31:0]
+tb_conv.dut.oc_q[31:0]
 @420
 tb_conv.dut.acc_q[31:0]
 @28
 tb_conv.ofm_vld
-@22
+@24
 tb_conv.ofm_addr[19:0]
+@22
 tb_conv.ofm_strb[31:0]
 @420
 tb_conv.ofm_data[7:0]

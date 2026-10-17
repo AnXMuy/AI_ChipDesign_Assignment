@@ -1,0 +1,23 @@
+[*] 图1 复位启动与同步读取时序
+[size] 1400 850
+[sst_width] 220
+[signals_width] 260
+[timestart] 0
+*-15.25 70000
+@28
+tb_conv.clk
+tb_conv.rst
+tb_conv.start
+@24
+tb_conv.dut.state_q[2:0]
+@28
+tb_conv.ifm_vld
+tb_conv.knl_vld
+@24
+tb_conv.ifm_addr[19:0]
+tb_conv.knl_addr[19:0]
+@420
+tb_conv.dut.acc_q[31:0]
+@28
+tb_conv.ofm_vld
+tb_conv.done

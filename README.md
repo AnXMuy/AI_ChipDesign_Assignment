@@ -40,7 +40,7 @@ python conv_sim/python/experiment.py --suite full
 # 综合、无复位重复启动与参考错误注入检查。
 python conv_sim/scripts/validate.py
 
-# 生成报告图、结果表，并汇集实际运行记录。
+# 生成数值结果图、性能图与结果表，并汇集实际运行记录。
 python conv_sim/python/figures.py
 
 # Python 格式与静态检查。
@@ -69,16 +69,18 @@ python conv_sim/python/experiment.py --case small --seed 42
 ## 波形查看
 
 ```bash
+gtkwave report/evidence/screenshot_wave.vcd conv_sim/wave.gtkw
+```
+
+也可查看普通快速回归产生的波形：
+
+```bash
 gtkwave results/small/lanes16/wave.vcd conv_sim/wave.gtkw
 ```
 
-也可直接打开提交的波形：
+保存视图包括 `clk/rst/start/done`、状态机、输入和权重读请求、读地址、核坐标、输出通道、累加器与输出有效信号。截图专用波形连续记录一次完整的 `small / LANES=16` 任务，包含全部 57,345 个周期和 2,048 个输出；普通快速回归默认仅记录前 600 个计算周期和结束附近，完整计算与检查持续运行。
 
-```bash
-gtkwave report/evidence/wave.vcd conv_sim/wave.gtkw
-```
-
-保存视图包括 `clk/rst/start/done`、状态机、读地址、累加器与输出有效信号。TB 默认仅记录前 600 个计算周期和结束附近，完整计算持续运行。报告中的 `waveform.png` 直接解析同一 VCD；GTKWave 的实际加载记录见 `report/evidence/gtkwave_load.log`。
+报告中保留四幅真实 GTKWave 截图的纯文本占位，依次展示启动、核遍历与乘累加、连续写回和任务结束，等待截图后粘贴。截图时间窗口、信号选择及有符号显示方法见 [临时截图操作说明](report/截图操作说明_临时.md)。完整尺寸的完成日志、数值比较和性能结果已直接写入报告。
 
 ## 代码职责
 
@@ -88,7 +90,7 @@ gtkwave report/evidence/wave.vcd conv_sim/wave.gtkw
 | `conv_sim/rtl/README.md` | RTL 存储协议、参数、状态转换和精确周期定义 |
 | `conv_sim/tb/tb_conv.sv` | 同步读内存、数据装载、32/8-bit 双重自校验、结果收集及 VCD 导出 |
 | `conv_sim/python/experiment.py` | 固定种子数据、向量/标量参考、参数集、编译仿真和结果统计 |
-| `conv_sim/python/figures.py` | 从真实 VCD、输出和指标生成报告图及证据 |
+| `conv_sim/python/figures.py` | 从数值输出和指标生成结果/性能图、汇总证据并复制真实 VCD |
 | `conv_sim/scripts/install_tools.py` | 固定版本仿真工具在 conda 环境中的源码构建 |
 | `conv_sim/scripts/validate.py` | 综合结构检查、重启与故障注入验证 |
 | `environment.yml` | 跨平台 conda 环境及 Python 工具版本 |

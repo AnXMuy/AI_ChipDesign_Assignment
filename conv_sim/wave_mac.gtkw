@@ -1,0 +1,22 @@
+[*] 图2 首个输出的卷积核遍历与乘累加时序
+[size] 1400 850
+[sst_width] 220
+[signals_width] 260
+[timestart] 80000
+*-16 340000
+@28
+tb_conv.clk
+@24
+tb_conv.dut.state_q[2:0]
+tb_conv.dut.kh_q[31:0]
+tb_conv.dut.kw_q[31:0]
+tb_conv.dut.group_q[31:0]
+tb_conv.ifm_addr[19:0]
+tb_conv.knl_addr[19:0]
+@420
+tb_conv.dut.acc_q[31:0]
+@28
+tb_conv.ofm_vld
+@420
+tb_conv.ofm_acc[31:0]
+tb_conv.ofm_data[7:0]

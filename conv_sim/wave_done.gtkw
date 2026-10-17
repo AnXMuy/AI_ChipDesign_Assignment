@@ -1,0 +1,22 @@
+[*] 图4 最后一次输出写回与任务完成时序
+[size] 1400 850
+[sst_width] 220
+[signals_width] 260
+[timestart] 573440000
+*-14.5 573500000
+@28
+tb_conv.clk
+@24
+tb_conv.dut.state_q[2:0]
+tb_conv.dut.oc_q[31:0]
+@28
+tb_conv.ofm_vld
+@24
+tb_conv.ofm_addr[19:0]
+@22
+tb_conv.ofm_strb[31:0]
+@420
+tb_conv.ofm_acc[31:0]
+tb_conv.ofm_data[7:0]
+@28
+tb_conv.done
