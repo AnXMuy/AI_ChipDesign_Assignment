@@ -12,5 +12,4 @@ results/
 *.vvp
 baseline/
 conv_sim/.build/
-!report/evidence/*.log
-report/evidence/*_netlist.json
+/report/

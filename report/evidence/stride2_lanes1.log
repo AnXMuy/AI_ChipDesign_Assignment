@@ -1,6 +1,0 @@
-COMMAND: vvp /Users/zixuan/XJTU/AIChip/results/stride2/lanes1/sim.vvp +IFM=/Users/zixuan/XJTU/AIChip/results/stride2/data/ifm.hex +KERNEL=/Users/zixuan/XJTU/AIChip/results/stride2/data/kernel.hex +GOLDEN=/Users/zixuan/XJTU/AIChip/results/stride2/data/golden.hex +GOLDEN_ACC=/Users/zixuan/XJTU/AIChip/results/stride2/data/golden_acc.hex +OUTPUT=/Users/zixuan/XJTU/AIChip/results/stride2/lanes1/output.hex +METRICS=/Users/zixuan/XJTU/AIChip/results/stride2/lanes1/tb_metrics.json +VCD=/Users/zixuan/XJTU/AIChip/results/stride2/lanes1/wave.vcd +TRACE_CYCLES=600
-VCD info: dumpfile /Users/zixuan/XJTU/AIChip/results/stride2/lanes1/wave.vcd opened for output.
-run=1 cycles=22141 outputs=270 errors=0
-run=2 cycles=22141 outputs=270 errors=0
-PASS
-/Users/zixuan/XJTU/AIChip/conv_sim/tb/tb_conv.sv:191: $finish called at 442980000 (1ps)

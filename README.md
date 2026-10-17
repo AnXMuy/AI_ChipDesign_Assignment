@@ -2,8 +2,6 @@
 
 基于课程 `baseline` 的定点卷积语义、按空间位置打包通道的存储格式和同步读接口，使用 SystemVerilog 实现可综合卷积，使用 Python 驱动 **Icarus Verilog + GTKWave** 完成验证。主实验输入为 **256×256×16**，卷积核为 **32×3×3×16**，输出为 **256×256×32**，中间累加为有符号 32-bit。
 
-完整中文报告见 [实验报告](report/实验报告.md)，实测记录见 [实验结果表](report/evidence/results_table.md) 和 [机器可读结果](report/evidence/summary.json)。
-
 ## 环境配置
 
 所有 Python 依赖、Icarus 和 GTKWave 工具都安装在 conda 环境。macOS 首先安装 Xcode Command Line Tools，Linux 准备 C/C++ 编译器。项目目录建议使用不含空格的路径。
@@ -64,23 +62,15 @@ python conv_sim/python/experiment.py --case small --seed 42
 
 每次实验自动完成数据生成、独立标量参考交叉检查（小尺寸）、Icarus 编译、`vvp` 执行、TB 自校验、Python 文件逐元素比对及 JSON 汇总。终端显示 `通过`，仿真日志包含 `errors=0` 和 `PASS`。失败、超时、X/Z、地址异常、重复或丢失输出会让命令以非零状态退出。完整尺寸默认运行 16 路版本；串并行速度比较使用相同 `small` 配置的数据和输出规模。
 
-运行产生的 `results/` 包括输入、权重、参考值、RTL 输出、VCD、编译日志、仿真日志和 JSON 指标，支持重复生成。`report/evidence/` 保留本次提交的指标、数据 SHA-256、日志和小规模波形证据。
+运行产生的 `results/` 包括输入、权重、参考值、RTL 输出、VCD、编译日志、仿真日志和 JSON 指标，支持重复生成。结果汇总脚本会在本地 `report/evidence/` 生成指标、数据 SHA-256、日志和小规模波形证据；整个 `report/` 目录不纳入版本管理。
 
 ## 波形查看
-
-```bash
-gtkwave report/evidence/screenshot_wave.vcd conv_sim/wave.gtkw
-```
-
-也可查看普通快速回归产生的波形：
 
 ```bash
 gtkwave results/small/lanes16/wave.vcd conv_sim/wave.gtkw
 ```
 
-保存视图包括 `clk/rst/start/done`、状态机、输入和权重读请求、读地址、核坐标、输出通道、累加器与输出有效信号。截图专用波形连续记录一次完整的 `small / LANES=16` 任务，包含全部 57,345 个周期和 2,048 个输出；普通快速回归默认仅记录前 600 个计算周期和结束附近，完整计算与检查持续运行。
-
-报告中保留四幅真实 GTKWave 截图的纯文本占位，依次展示启动、核遍历与乘累加、连续写回和任务结束，等待截图后粘贴。截图时间窗口、信号选择及有符号显示方法见 [临时截图操作说明](report/截图操作说明_临时.md)。完整尺寸的完成日志、数值比较和性能结果已直接写入报告。
+保存视图包括 `clk/rst/start/done`、状态机、输入和权重读请求、读地址、核坐标、输出通道、累加器与输出有效信号。快速回归默认仅记录前 600 个计算周期和结束附近，完整计算与检查持续运行。
 
 ## 代码职责
 
@@ -95,7 +85,6 @@ gtkwave results/small/lanes16/wave.vcd conv_sim/wave.gtkw
 | `conv_sim/scripts/validate.py` | 综合结构检查、重启与故障注入验证 |
 | `environment.yml` | 跨平台 conda 环境及 Python 工具版本 |
 | `conda-osx-arm64.lock.txt` | 本次实验平台的 conda 精确包清单 |
-| `report/实验报告.md` | 实验内容、方法、结果分析、总结与心得 |
 
 Python 使用 4 空格缩进、snake_case 命名、模块与函数说明，采用 Google Python 风格的基本约定，并由 Ruff 检查格式与常见错误。新代码注释使用中文。
 
@@ -105,4 +94,4 @@ Python 使用 4 空格缩进、snake_case 命名、模块与函数说明，采�
 
 `H/W/CIN/COUT/KERNEL_H/KERNEL_W/PAD/STRIDE/SHIFT/LANES` 在编译时配置；基址和启动在运行时配置。输入由 Python 预填充，存储接口为固定一拍同步读；输出无背压，TB 每拍接收。已实测：H/W 1～256、CIN 1～16、COUT 1～32、卷积核 1×1/2×3/3×3/5×5、步长 1/2、填充 0/1/2、SHIFT 1/4/8、LANES 1/4/8/16。合法配置须保证输出尺寸为正、地址可由 20 位表示，且 `KH*KW*CIN*16384 < 2^31`。
 
-课程原始材料保留在本地 `baseline/`，使用其定点算法及存储协议作为设计起点；提交的实现和实验材料统一维护在 `conv_sim/` 与 `report/`。本次覆盖提交更新远端 `main` 的内容，并保留仓库已有提交历史。
+课程原始材料保留在本地 `baseline/`，使用其定点算法及存储协议作为设计起点。实验代码维护在 `conv_sim/`，实验报告、截图及证据仅在本地 `report/` 保存。

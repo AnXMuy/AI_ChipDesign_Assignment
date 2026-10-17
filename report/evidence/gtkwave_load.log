@@ -1,7 +1,0 @@
-COMMAND: gtkwave report/evidence/wave.vcd conv_sim/wave.gtkw
-
-GTKWave Analyzer v3.3.116 (w)1999-2023 BSI
-
-[0] start time.
-[1147060000] end time.
-WM Destroy
