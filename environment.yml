@@ -1,0 +1,22 @@
+name: aichip
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy=2.4
+  - matplotlib=3.11
+  - pip
+  - make
+  - autoconf
+  - gperf
+  - pkg-config
+  - gtk3
+  - glib=2.90
+  - tk=8.6
+  - flex
+  - bison
+  - meson
+  - ninja
+  - pip:
+      - yowasp-yosys==0.70.0.0.post1259
+      - ruff==0.17.1

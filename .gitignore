@@ -7,3 +7,10 @@ vsim.wlf
 results/
 *.swp
 .DS_Store
+.conda-env/
+.cache/
+*.vvp
+baseline/
+conv_sim/.build/
+!report/evidence/*.log
+report/evidence/*_netlist.json

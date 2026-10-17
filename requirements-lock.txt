@@ -1,0 +1,7 @@
+# conda 管理科学计算依赖；此处锁定 pip 安装的补充工具。
+click==8.5.0
+platformdirs==4.13.3
+ruff==0.17.1
+wasmtime==47.0.1
+yowasp-runtime==1.96
+yowasp-yosys==0.70.0.0.post1259
